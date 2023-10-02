@@ -83,3 +83,28 @@ int stack_ok(Stack *stk)
 
     return 0;
 }
+
+int stack_dump(Stack *stk)
+{
+    printf("Stack [%p]\n{\n", stk);
+
+    printf("    size = %ld\n", stk->size);
+    printf("    capacity = %ld\n", stk->capacity);
+    
+    printf("    array [%p] \n    {\n", stk->data);
+    for (size_t num = 0; num < stk->capacity; num++)
+    {
+        if (num < stk->size)
+        {
+            printf("        arr[%2ld] = %d;\n", num, stk->data[num]);
+        }
+        else
+        {
+            printf("        arr[%2ld] = NaN;\n", num);
+        }
+    }
+    printf("    }\n");
+    printf("}\n");
+
+    return 0;
+}

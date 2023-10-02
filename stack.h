@@ -24,4 +24,6 @@ void mem_stack_smaller(Stack *stk);
 
 int stack_ok(Stack *stk);
 
+int stack_dump(Stack *stk);
+
 #endif
