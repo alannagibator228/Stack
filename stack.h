@@ -14,8 +14,8 @@ typedef struct
     canary_t stk_canary_left;
     int size;
     int capacity;
-    canary_t* p_data_canary_left;
-    canary_t* p_data_canary_right;
+    canary_t *p_data_canary_left;
+    canary_t *p_data_canary_right;
     elem_t *data;
     hash_t stack_hash;
     hash_t data_hash;
@@ -48,11 +48,11 @@ void mem_stack_smaller(Stack *stk);
 
 short stack_ok(Stack *stk);
 short print_error(short error);
-void stack_aborter_validator(Stack * stk);
+void stack_aborter_validator(Stack *stk);
 
-hash_t HashFAQ6(const char * str, int size);
-hash_t create_stack_hash (Stack * stk);
-hash_t create_data_hash (Stack * stk);
+hash_t HashFAQ6(const char *str, int size);
+hash_t create_stack_hash(Stack *stk);
+hash_t create_data_hash(Stack *stk);
 void hash_solver(Stack *stk);
 
 int print_canary(canary_t *value);

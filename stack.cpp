@@ -102,51 +102,20 @@ void mem_stack_smaller(Stack *stk)
 short stack_ok(Stack *stk)
 {
     short error = NONE;
-    if (stk == NULL)
-    {
-        error |= INVALID_STK;
-        return error;
-    }
-    if (stk->stk_canary_left != stk->stk_canary_right)
-    {
-        error |= UNEQUAL_STK_CANARY;
-    }
-    if (stk->stk_canary_right != NORM)
-    {
-        error |= INVALID_STK_CANARY;
-    }
-    if (stk->capacity <= 0)
-    {
-        error |= INVALID_CAPACITY;
-    }
-    if (stk->size < 0)
-    {
-        error |= INVALID_SIZE;
-    }
-    if (stk->data == NULL || stk->p_data_canary_left == NULL || stk->p_data_canary_right == NULL)
-    {
-        error |= INVALID_DATA;
-    }
-    if (*(stk->p_data_canary_left) != *(stk->p_data_canary_right))
-    {
-        error |= UNEQUAL_DATA_CANARY;
-    }
-    if (*(stk->p_data_canary_right) != NORM)
-    {
-        error |= INVALID_DATA_CANARY;
-    }
+    if (stk == NULL){error |= INVALID_STK; return error;}
+    if (stk->stk_canary_left != stk->stk_canary_right){error |= UNEQUAL_STK_CANARY;}
+    if (stk->stk_canary_right != NORM){error |= INVALID_STK_CANARY;}
+    if (stk->capacity <= 0){error |= INVALID_CAPACITY;}
+    if (stk->size < 0){error |= INVALID_SIZE;}
+    if (stk->data == NULL || stk->p_data_canary_left == NULL || stk->p_data_canary_right == NULL){error |= INVALID_DATA;}
+    if (*(stk->p_data_canary_left) != *(stk->p_data_canary_right)){error |= UNEQUAL_DATA_CANARY;}
+    if (*(stk->p_data_canary_right) != NORM){error |= INVALID_DATA_CANARY;}
 
     hash_t old_stk_hash = stk->stack_hash;
     hash_t old_data_hash = stk->data_hash;
     hash_solver(stk);
-    if (old_stk_hash != stk->stack_hash)
-    {
-        error |= BAD_STACK_HASH; 
-    }
-    if (old_data_hash != stk->data_hash)
-    {
-        error |= BAD_DATA_HASH; 
-    }
+    if (old_stk_hash != stk->stack_hash){error |= BAD_STACK_HASH;}
+    if (old_data_hash != stk->data_hash){error |= BAD_DATA_HASH;}
 
     return error;
 }
@@ -164,8 +133,7 @@ short print_error(short error)
             "7  ERROR: Data canary don`t equal",
             "8  ERROR: Invalid data canaries",
             "9  ERROR: Bad stack_hash",
-            "10 ERROR: Bad data_hash"
-        };
+            "10 ERROR: Bad data_hash"};
 
     for (int i = 0; i < 8 * sizeof(short); i++)
     {
@@ -186,32 +154,32 @@ void stack_aborter_validator(Stack *stk)
     }
 }
 
-hash_t HashFAQ6(const char * str, int size)
+hash_t HashFAQ6(const char *str, int size)
 {
-    unsigned int hash = 0;  	
-    for (; size > 0; str++) 	
-    { 		
-        hash += (unsigned char)(*str); 		
-        hash += (hash << 10); 		
-        hash ^= (hash >> 6); 	
-        size --;
-    } 	
-    hash += (hash << 3); 	
-    hash ^= (hash >> 11); 	
-    hash += (hash << 15); 
+    unsigned int hash = 0;
+    for (; size > 0; str++)
+    {
+        hash += (unsigned char)(*str);
+        hash += (hash << 10);
+        hash ^= (hash >> 6);
+        size--;
+    }
+    hash += (hash << 3);
+    hash ^= (hash >> 11);
+    hash += (hash << 15);
 
-    return hash;  
-} 
+    return hash;
+}
 
-hash_t create_stack_hash (Stack * stk)
+hash_t create_stack_hash(Stack *stk)
 {
-    char* p = (char*) stk;
+    char *p = (char *)stk;
     return HashFAQ6(p, sizeof(stk));
 }
 
-hash_t create_data_hash (Stack * stk)
+hash_t create_data_hash(Stack *stk)
 {
-    char* p = (char*) stk->data - sizeof(canary_t);
+    char *p = (char *)stk->data - sizeof(canary_t);
     return HashFAQ6(p, stk->capacity * sizeof(elem_t) + 2 * sizeof(canary_t));
 }
 
@@ -243,7 +211,6 @@ int print_canary(canary_t *value)
 
 int stack_dump(Stack *stk)
 {
-    // print_error(stack_ok(stk));
     if (stk == NULL)
     {
         return 0;
