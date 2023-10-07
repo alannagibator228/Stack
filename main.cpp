@@ -12,6 +12,7 @@ int main()
     }
     
     stack_dump(&stack);
+    stack.data_hash = 0;
 
     elem_t x = 0;
 
